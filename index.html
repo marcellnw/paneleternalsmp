@@ -260,7 +260,7 @@
             <p class="description">Dashboard khusus administrator untuk manajemen notifikasi dan pengumuman server secara otomatis ke Discord dengan sistem yang cepat dan modern.</p>
             <button class="btn-mulai" onclick="showPage('page2')">MULAI</button>
         </div>
-        <footer>&copy; 2026 Legendary Server. All Rights Reserved.</footer>
+        <footer>&copy; 2026 EternalSMP Server. All Rights Reserved.</footer>
     </main>
 
     <main id="page2" class="page">
@@ -281,7 +281,7 @@
                 <button type="button" class="btn-send" onclick="sendToDiscord()">KIRIM KE DISCORD</button>
             </form>
         </div>
-        <footer>&copy; 2026 Legendary Server. All Rights Reserved.</footer>
+        <footer>&copy; 2026 EternalSMP Server. All Rights Reserved.</footer>
     </main>
 
     <main id="page3" class="page">
@@ -298,7 +298,7 @@
             <img src="https://picsum.photos/200/200?random=5" alt="Gallery">
             <img src="https://picsum.photos/200/200?random=6" alt="Gallery">
         </div>
-        <footer>&copy; 2026 Legendary Server. All Rights Reserved.</footer>
+        <footer>&copy; 2026 EternalSMP Server. All Rights Reserved.</footer>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
@@ -360,7 +360,7 @@
         async function sendToDiscord() {
             const fields = formConfig[currentCategory];
             let descriptionBody = "";
-            let thumbnail = "https://github.com/marcellnw/paneleternalsmp/blob/main/IMG_20260407_091813_774.jpg"; // Default logo kecil
+            let thumbnail = "IMG_20260407_091813_774.jpg"; // Default logo kecil
 
             const embedData = {
                 title: currentCategory.toUpperCase(),
