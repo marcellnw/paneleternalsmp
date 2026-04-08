@@ -1,1 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EternalSMP Panel - Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles-confetti@2.12.0/tsparticles.confetti.bundle.min.js"></script>
+    <style>
+        :root {
+            --emas-coklat: #DDA0DD;
+            --lavender: #E6E6FA;
+            --coklat-gelap: #8B4513;
+            --putih: #FFFFFF;
+            --merah-bata: #B22222;
+            --abu-abu: #808080;
+            --hitam: #0a0a0a;
+            --gradasi: linear-gradient(135deg, #4b0082, #000033);
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', serif;
+        }
+
+        body {
+            background-color: var(--hitam);
+            color: var(--putih);
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--gradasi);
+        }
+
+        /* --- NAVIGATION --- */
+        .header-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+            background: rgba(139, 69, 19, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--emas-coklat);
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 250px;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            border-right: 2px solid var(--coklat-gelap);
+            transition: 0.4s;
+            padding-top: 80px;
+            z-index: 999;
+        }
+
+        .side-menu.active { left: 0; }
+
+        .side-menu a {
+            display: block;
+            padding: 15px 25px;
+            color: var(--lavender);
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+
+        .side-menu a:hover {
+            background: var(--coklat-gelap);
+            color: var(--putih);
+        }
+
+        /* --- LANDING PAGES --- */
+        .page {
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .page.active { display: flex; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .logo-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--emas-coklat);
+            box-shadow: 0 0 30px var(--emas-coklat);
+            margin-bottom: 20px;
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        h1 { font-size: 2.5rem; text-shadow: 2px 2px var(--coklat-gelap); text-align: center; }
+
+        .btn-main {
+            background: linear-gradient(to right, var(--coklat-gelap), var(--merah-bata));
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .btn-main:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--merah-bata); }
+
+        /* --- PAGE 2: DASHBOARD --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .btn-notif {
+            background: rgba(230, 230, 250, 0.1);
+            border: 1px solid var(--lavender);
+            color: var(--lavender);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-notif:hover { background: var(--lavender); color: var(--hitam); }
+
+        /* --- FORM STYLING --- */
+        .form-container {
+            background: rgba(255,255,255,0.05);
+            padding: 25px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid var(--coklat-gelap);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--abu-abu);
+            color: white;
+            border-radius: 5px;
+        }
+
+        /* --- PAGE 3: INFO --- */
+        .collage {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .collage img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .collage img:hover { transform: scale(1.05); border: 2px solid var(--emas-coklat); }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            font-size: 0.8rem;
+            color: var(--abu-abu);
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .collage { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="header-nav">
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+    </div>
+
+    <div class="side-menu" id="sideMenu">
+        <a href="#" onclick="showPage('page1')">Dashboard</a>
+        <a href="#" onclick="showPage('page3')">Admin</a>
+        <a href="#" onclick="showPage('page2')">Server</a>
+        <a href="#" onclick="alert('Coming Soon')">Quest</a>
+        <a href="#" onclick="alert('Coming Soon')">Update</a>
+    </div>
+
+    <section id="page1" class="page active">
+        <img src="https://raw.githubusercontent.com/marcellnw/paneleternalsmp/main/20260408_214324.jpg" class="logo-img" alt="Logo">
+        <h1>ETERNAL SMP</h1>
+        <p style="color: var(--lavender); letter-spacing: 2px;">MANAGEMENT PORTAL</p>
+        <button class="btn-main" onclick="showPage('page2')">MULAI</button>
+        <footer>© 2026 EternalSMP - Crafted with Magic</footer>
+    </section>
+
+    <section id="page2" class="page">
+        <h2 style="margin-bottom: 30px; color: var(--emas-coklat);">Webhook Broadcast</h2>
+        <div class="grid-container">
+            <button class="btn-notif" onclick="openForm('Announcement')">Announcement</button>
+            <button class="btn-notif" onclick="openForm('Quest')">Quest Server</button>
+            <button class="btn-notif" onclick="openForm('Event')">Event</button>
+            <button class="btn-notif" onclick="openForm('Update')">Update</button>
+            <button class="btn-notif" onclick="openForm('Info')">Info Server</button>
+        </div>
+
+        <div id="webhookForm" class="form-container">
+            <h3 id="formTitle" style="color: var(--emas-coklat); margin-bottom: 15px;"></h3>
+            <div id="inputs"></div>
+            <button class="btn-main" style="width:100%" onclick="sendToDiscord()">Kirim Ke Discord</button>
+        </div>
+        <footer>Powered by Marcellnw | EternalSMP</footer>
+    </section>
+
+    <section id="page3" class="page">
+        <div style="max-width: 800px; text-align: center;">
+            <h2 style="color: var(--emas-coklat);">Tentang Website</h2>
+            <p style="margin: 20px 0; line-height: 1.6;">Website ini adalah pusat kendali informasi untuk EternalSMP, dirancang dengan sistem automasi webhook untuk mempermudah manajemen komunitas di platform Discord.</p>
+            
+            <div class="collage">
+                <img src="https://picsum.photos/400/300?random=1" alt="Gallery">
+                <img src="https://picsum.photos/400/300?random=2" alt="Gallery">
+                <img src="https://picsum.photos/400/300?random=3" alt="Gallery">
+                <img src="https://picsum.photos/400/300?random=4" alt="Gallery">
+                <img src="https://picsum.photos/400/300?random=5" alt="Gallery">
+                <img src="https://picsum.photos/400/300?random=6" alt="Gallery">
+            </div>
+        </div>
+        <footer>EternalSMP v15 - Legend of Feeloria</footer>
+    </section>
+
+    <script>
+        const webhookURL = "https://discord.com/api/webhooks/1396156267994812497/GmgoFVHtJIYVvpzZ_2pLic_Bz5DS3H9vpNNGoN7A5LCTKUkaQZJ9WMWT_CwMZb_JgkRP";
+        let currentType = "";
+
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('active');
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('sideMenu').classList.remove('active');
+        }
+
+        function openForm(type) {
+            currentType = type;
+            const container = document.getElementById('inputs');
+            const form = document.getElementById('webhookForm');
+            document.getElementById('formTitle').innerText = "Form " + type;
+            form.style.display = "block";
+            container.innerHTML = "";
+
+            const fields = {
+                'Announcement': ['Judul', 'Kategori', 'Status', 'Description', 'Catatan'],
+                'Quest': ['Nama', 'Type', 'Tier', 'Description', 'Objective', 'Reward'],
+                'Event': ['Nama Event', 'Waktu', 'Lokasi', 'Description', 'Syarat'],
+                'Update': ['Versi', 'Tanggal', 'Log Perubahan', 'New Update', 'Buff', 'Fix'],
+                'Info': ['Topik', 'Image URL', 'Description']
+            };
+
+            fields[type].forEach(f => {
+                container.innerHTML += `<input type="text" id="${f}" placeholder="${f}">`;
+            });
+        }
+
+        async function sendToDiscord() {
+            const data = {};
+            document.querySelectorAll('#inputs input').forEach(input => {
+                data[input.id] = input.value;
+            });
+
+            const timestamp = new Date().toLocaleString('id-ID');
+            let description = "";
+            for (let key in data) { description += `**${key}:** ${data[key]}\n`; }
+
+            const embed = {
+                title: `🛡️ EternalSMP - ${currentType}`,
+                description: description,
+                color: 0xDDA0DD, // Emas Coklat Hex
+                thumbnail: { url: "https://raw.githubusercontent.com/marcellnw/paneleternalsmp/main/20260408_214324.jpg" },
+                footer: { text: `Dikirim pada: ${timestamp}` }
+            };
+
+            const response = await fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ embeds: [embed] })
+            });
+
+            if (response.ok) {
+                alert("Berhasil dikirim ke Discord!");
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            } else {
+                alert("Gagal mengirim.");
+            }
+        }
+    </script>
+</body>
+</html>
