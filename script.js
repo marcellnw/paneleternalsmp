@@ -1,4 +1,7 @@
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1396156267994812497/GmgoFVHtJIYVvpzZ_2pLic_Bz5DS3H9vpNNGoN7A5LCTKUkaQZJ9WMWT_CwMZb_JgkRP";
+// Konfigurasi Webhook
+const WEBHOOK_ANNOUNCEMENT = "https://discord.com/api/webhooks/1491686276414570611/pf1ZGDg0uFsdwbCE7ZwTPNVfCvr56n-nXaD5Jc9FUSigt3NdHGajUjEXJvkp7slJ-wyZ";
+const WEBHOOK_DEFAULT = "https://discord.com/api/webhooks/1396156267994812497/GmgoFVHtJIYVvpzZ_2pLic_Bz5DS3H9vpNNGoN7A5LCTKUkaQZJ9WMWT_CwMZb_JgkRP";
+
 const ROLE_ID = "1472246426414350336"; // Role ID LegendofFeeloria[S15]
 
 let currentCategory = 'announcement';
@@ -58,6 +61,9 @@ async function sendToDiscord() {
     const fields = formConfig[currentCategory];
     let thumbnail = "https://github.com/marcellnw/paneleternalsmp/blob/main/1775664361126.png?raw=true";
 
+    // Pilih Webhook tujuan berdasarkan kategori
+    const targetWebhook = (currentCategory === 'announcement') ? WEBHOOK_ANNOUNCEMENT : WEBHOOK_DEFAULT;
+
     const embedData = {
         title: currentCategory.toUpperCase(),
         color: parseInt("B22222", 16),
@@ -76,22 +82,22 @@ async function sendToDiscord() {
 
     // Menyiapkan Payload dengan Mention Role di luar Embed
     const payload = {
-        content: `<@&${ROLE_ID}>`, // Ini akan men-tag role tersebut
+        content: `<@&${ROLE_ID}>`, // Tag role LegendofFeeloria[S15]
         embeds: [embedData]
     };
 
     try {
-        const response = await fetch(WEBHOOK_URL, {
+        const response = await fetch(targetWebhook, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
         if (response.ok) {
-            alert('Notifikasi berhasil dikirim!');
+            alert(`Notifikasi ${currentCategory.toUpperCase()} berhasil dikirim!`);
             document.getElementById('webhookForm').reset();
         } else {
-            alert('Gagal mengirim ke Discord.');
+            alert('Gagal mengirim ke Discord. Pastikan URL Webhook benar.');
         }
     } catch (err) {
         console.error(err);
