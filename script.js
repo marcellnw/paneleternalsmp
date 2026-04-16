@@ -34,7 +34,7 @@ const formConfig = {
     quest: ['Nama', 'Type', 'Tier', 'Description', 'Progress', 'Reward'],
     event: ['Nama Event', 'Waktu', 'Lokasi', 'Description', 'Syarat'],
     update: ['Versi', 'Tanggal', 'Log Perubahan', 'New Update', 'Buff', 'Fix'],
-    info: ['Topik', 'Description']
+    info: ['judul, 'Topik', 'Description']
 };
 
 function switchForm(category, btn) {
